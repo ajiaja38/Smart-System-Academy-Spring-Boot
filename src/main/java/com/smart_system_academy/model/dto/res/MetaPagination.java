@@ -9,11 +9,11 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ResponseData <T> {
-  
-  private Number code;
-  private Boolean status;
-  private String message;
-  private T data;
+public class MetaPagination {
+
+  private Integer page;
+  private Integer limit;
+  private Integer totalPage;
+  private Long totalData;
   
 }
