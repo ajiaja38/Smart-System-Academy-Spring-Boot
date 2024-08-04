@@ -17,7 +17,8 @@ public class AppController {
 
   @GetMapping
   public ResponseEntity<ResponseMessage> helloApp() {
-    return ResponseEntity.status(HttpStatus.OK).body(
+    return ResponseEntity.status(HttpStatus.OK)
+    .body(
       new ResponseMessage(
         HttpStatus.OK.value(),
         true,
