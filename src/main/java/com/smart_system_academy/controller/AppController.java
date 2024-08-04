@@ -13,21 +13,20 @@ import com.smart_system_academy.service.AppService;
 
 @RestController
 public class AppController {
-  
+
   @Autowired
   private AppService appService;
 
   @GetMapping
   public ResponseEntity<ResponseWrapper<String>> helloApp() {
     return ResponseEntity.status(HttpStatus.OK)
-    .body(
-      ResponseWrapper.<String>builder()
-      .code(HttpStatus.OK.value())
-      .status(true)
-      .message(appService.getHelloService())
-      .data(Optional.empty())
-      .build()
-    );
+        .body(
+            ResponseWrapper.<String>builder()
+                .code(HttpStatus.OK.value())
+                .status(true)
+                .message(appService.getHelloService())
+                .data(Optional.empty())
+                .build());
   }
 
 }

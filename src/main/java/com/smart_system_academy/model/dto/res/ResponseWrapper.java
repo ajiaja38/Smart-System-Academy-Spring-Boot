@@ -14,8 +14,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-public class ResponseWrapper <T> {
-  
+public class ResponseWrapper<T> {
+
   private Number code;
   private Boolean status;
   private String message;

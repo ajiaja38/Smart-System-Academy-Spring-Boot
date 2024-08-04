@@ -15,5 +15,5 @@ public class MetaPagination {
   private Integer limit;
   private Integer totalPage;
   private Long totalData;
-  
+
 }

@@ -11,21 +11,20 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration {
-  
+
   private static final String[] WHITE_LIST_URL = {
-    "/"
+      "/"
   };
 
-    @Bean
-    SecurityFilterChain configure(HttpSecurity http) throws Exception {
+  @Bean
+  SecurityFilterChain configure(HttpSecurity http) throws Exception {
     http.httpBasic(AbstractHttpConfigurer::disable)
         .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-        .authorizeHttpRequests(request ->
-          request.requestMatchers(WHITE_LIST_URL)
-                 .permitAll()
-                 .anyRequest()
-                 .authenticated());
-    
+        .authorizeHttpRequests(request -> request.requestMatchers(WHITE_LIST_URL)
+            .permitAll()
+            .anyRequest()
+            .authenticated());
+
     return http.build();
   }
 }
