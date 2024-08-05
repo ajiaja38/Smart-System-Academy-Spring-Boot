@@ -1,9 +1,11 @@
 package com.smart_system_academy.model.entity;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.smart_system_academy.utils.date.DateTimeUtil;
 
 import jakarta.persistence.Column;
@@ -48,6 +50,9 @@ public class UserProfile {
 
   @Column
   private String avatar;
+
+  @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+7")
+  private Date birthDate;
 
   @Column(name = "created_at", updatable = false)
   private LocalDateTime createdAt;
