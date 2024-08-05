@@ -35,48 +35,43 @@ public class UserServiceImpl implements UserService {
   @Override
   @Transactional
   public RegisterResponseDto register(RegisterUserDto registerUserDto, ERole roleRegistered) throws Exception {
-    try {
-      List<ERole> roles = new ArrayList<>();
+    List<ERole> roles = new ArrayList<>();
 
-      roles.add(roleRegistered);
+    roles.add(roleRegistered);
 
-      List<Role> userRoles = roles.stream().map(this.roleService::getOrSave).toList();
+    List<Role> userRoles = roles.stream().map(this.roleService::getOrSave).toList();
 
-      if (!registerUserDto.getPassword().equals(registerUserDto.getConfirmPassword())) {
-        throw new BadRequestException("Passwords do not match");
-      }
-
-      User user = User.builder()
-          .username(registerUserDto.getUsername())
-          .email(registerUserDto.getEmail())
-          .password(this.passwordEncoder.encode(registerUserDto.getPassword()))
-          .userProfile(UserProfile.builder()
-              .firstName(registerUserDto.getFirstName())
-              .lastName(registerUserDto.getLastName())
-              .phoneNumber(registerUserDto.getPhoneNumber())
-              .address(registerUserDto.getAddress())
-              .roles(userRoles)
-              .birthDate(registerUserDto.getBirthDate())
-              .build())
-          .build();
-
-      this.userRepository.save(user);
-
-      return RegisterResponseDto.builder()
-          .id(user.getId())
-          .username(user.getUsername())
-          .email(user.getEmail())
-          .avatar(user.getUserProfile().getAvatar())
-          .firstName(user.getUserProfile().getFirstName())
-          .lastName(user.getUserProfile().getLastName())
-          .phoneNumber(user.getUserProfile().getPhoneNumber())
-          .address(user.getUserProfile().getAddress())
-          .roles(roles)
-          .build();
-
-    } catch (Exception e) {
-      throw e;
+    if (!registerUserDto.getPassword().equals(registerUserDto.getConfirmPassword())) {
+      throw new BadRequestException("Password and confirm password does not match");
     }
+
+    User user = User.builder()
+        .username(registerUserDto.getUsername())
+        .email(registerUserDto.getEmail())
+        .password(this.passwordEncoder.encode(registerUserDto.getPassword()))
+        .userProfile(UserProfile.builder()
+            .firstName(registerUserDto.getFirstName())
+            .lastName(registerUserDto.getLastName())
+            .phoneNumber(registerUserDto.getPhoneNumber())
+            .address(registerUserDto.getAddress())
+            .roles(userRoles)
+            .birthDate(registerUserDto.getBirthDate())
+            .build())
+        .build();
+
+    this.userRepository.save(user);
+
+    return RegisterResponseDto.builder()
+        .id(user.getId())
+        .username(user.getUsername())
+        .email(user.getEmail())
+        .avatar(user.getUserProfile().getAvatar())
+        .firstName(user.getUserProfile().getFirstName())
+        .lastName(user.getUserProfile().getLastName())
+        .phoneNumber(user.getUserProfile().getPhoneNumber())
+        .address(user.getUserProfile().getAddress())
+        .roles(roles)
+        .build();
   }
 
 }

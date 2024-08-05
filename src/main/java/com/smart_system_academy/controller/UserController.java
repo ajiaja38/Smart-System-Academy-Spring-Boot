@@ -26,12 +26,15 @@ public class UserController {
   @PostMapping("register")
   public ResponseEntity<ResponseWrapper<RegisterResponseDto>> registerHandler(
       @RequestBody RegisterUserDto registerUserDto) throws Exception {
+
+    RegisterResponseDto responseDto = this.userService.register(registerUserDto, ERole.ROLE_USER);
+
     return ResponseEntity.status(HttpStatus.CREATED)
         .body(ResponseWrapper.<RegisterResponseDto>builder()
             .code(HttpStatus.CREATED.value())
             .status(true)
             .message("User created successfully")
-            .data(Optional.of(this.userService.register(registerUserDto, ERole.ROLE_USER)))
+            .data(Optional.of(responseDto))
             .build());
   }
 

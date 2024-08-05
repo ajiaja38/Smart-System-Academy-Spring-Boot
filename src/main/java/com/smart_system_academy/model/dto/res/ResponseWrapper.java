@@ -21,5 +21,6 @@ public class ResponseWrapper<T> {
   private String message;
   private Optional<T> data;
   private Optional<MetaPagination> meta;
+  private Optional<String> path;
 
 }
