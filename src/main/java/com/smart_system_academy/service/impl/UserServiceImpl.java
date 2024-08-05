@@ -37,6 +37,8 @@ public class UserServiceImpl implements UserService {
   public RegisterResponseDto register(RegisterUserDto registerUserDto, ERole roleRegistered) throws Exception {
     List<ERole> roles = new ArrayList<>();
 
+    System.out.println(registerUserDto.getLastName());
+
     roles.add(roleRegistered);
 
     List<Role> userRoles = roles.stream().map(this.roleService::getOrSave).toList();
@@ -71,6 +73,9 @@ public class UserServiceImpl implements UserService {
         .phoneNumber(user.getUserProfile().getPhoneNumber())
         .address(user.getUserProfile().getAddress())
         .roles(roles)
+        .birthDate(user.getUserProfile().getBirthDate())
+        .createdAt(user.getCreatedAt())
+        .updatedAt(user.getUpdatedAt())
         .build();
   }
 

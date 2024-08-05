@@ -4,6 +4,7 @@ import java.util.Date;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -40,7 +41,7 @@ public class RegisterUserDto {
   @NotEmpty(message = "address cannot be empty")
   private String address;
 
-  @NotEmpty(message = "birth date cannot be empty")
+  @NotNull(message = "birth date cannot be null")
   private Date birthDate;
 
 }

@@ -1,5 +1,7 @@
 package com.smart_system_academy.model.dto.res;
 
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 import com.smart_system_academy.utils.enumerate.ERole;
@@ -23,6 +25,9 @@ public class RegisterResponseDto {
   private String lastName;
   private String phoneNumber;
   private String address;
+  private Date birthDate;
   private List<ERole> roles;
+  private LocalDateTime createdAt;
+  private LocalDateTime updatedAt;
 
 }

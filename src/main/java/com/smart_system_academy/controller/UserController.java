@@ -16,6 +16,8 @@ import com.smart_system_academy.model.dto.res.ResponseWrapper;
 import com.smart_system_academy.service.UserService;
 import com.smart_system_academy.utils.enumerate.ERole;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -25,7 +27,7 @@ public class UserController {
 
   @PostMapping("register")
   public ResponseEntity<ResponseWrapper<RegisterResponseDto>> registerHandler(
-      @RequestBody RegisterUserDto registerUserDto) throws Exception {
+      @Valid @RequestBody RegisterUserDto registerUserDto) throws Exception {
 
     RegisterResponseDto responseDto = this.userService.register(registerUserDto, ERole.ROLE_USER);
 

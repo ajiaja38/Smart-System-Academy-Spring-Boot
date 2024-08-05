@@ -34,13 +34,13 @@ public class User {
   @Column(name = "user_id")
   private String id;
 
-  @Column
+  @Column(unique = true, nullable = false)
   private String username;
 
-  @Column
+  @Column(unique = true, nullable = false)
   private String email;
 
-  @Column
+  @Column(nullable = false)
   private String password;
 
   @Column(name = "created_at", updatable = false)
