@@ -13,7 +13,10 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfiguration {
 
   private static final String[] WHITE_LIST_URL = {
-      "/"
+      "/",
+      "user/register",
+      "user/login",
+      "user/refresh-token",
   };
 
   @Bean

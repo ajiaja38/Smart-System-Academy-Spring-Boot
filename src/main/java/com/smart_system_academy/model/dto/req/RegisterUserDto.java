@@ -2,10 +2,8 @@ package com.smart_system_academy.model.dto.req;
 
 import java.util.Date;
 
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,32 +15,32 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class RegisterUserDto {
 
-  @NotNull(message = "username cannot be null")
+  @NotEmpty(message = "username cannot be empty")
   private String username;
 
-  @NotNull(message = "email cannot be null")
-  @Pattern(regexp = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$", message = "email is not valid")
+  @Email(message = "email is not valid")
+  @NotEmpty(message = "email cannot be empty")
   private String email;
 
-  @NotNull(message = "password cannot be null")
+  @NotEmpty(message = "password cannot be empty")
   private String password;
 
-  @NotNull(message = "confirm password cannot be null")
+  @NotEmpty(message = "confirm password cannot be empty")
   private String confirmPassword;
 
-  @NotNull(message = "first name cannot be null")
+  @NotEmpty(message = "first name cannot be empty")
   private String firstName;
 
-  @NotNull(message = "last name cannot be null")
+  @NotEmpty(message = "last name cannot be empty")
   private String lastName;
 
-  @NotNull(message = "phone number cannot be null")
+  @NotEmpty(message = "phone number cannot be empty")
   private String phoneNumber;
 
-  @NotNull(message = "address cannot be null")
+  @NotEmpty(message = "address cannot be empty")
   private String address;
 
-  @NotNull(message = "birth date cannot be null")
+  @NotEmpty(message = "birth date cannot be empty")
   private Date birthDate;
 
 }
