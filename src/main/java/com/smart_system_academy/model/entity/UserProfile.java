@@ -65,7 +65,6 @@ public class UserProfile {
   private List<Role> roles;
 
   @OneToOne(mappedBy = "userProfile")
-  @JoinColumn(name = "user_id")
   private User user;
 
   @PrePersist

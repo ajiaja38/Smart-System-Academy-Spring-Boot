@@ -23,9 +23,9 @@ public class UserController {
   @Autowired
   private UserService userService;
 
-  @PostMapping("/register")
+  @PostMapping("register")
   public ResponseEntity<ResponseWrapper<RegisterResponseDto>> registerHandler(
-      @RequestBody RegisterUserDto registerUserDto) {
+      @RequestBody RegisterUserDto registerUserDto) throws Exception {
     return ResponseEntity.status(HttpStatus.CREATED)
         .body(ResponseWrapper.<RegisterResponseDto>builder()
             .code(HttpStatus.CREATED.value())

@@ -27,7 +27,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@SQLDelete(sql = "UPDATE user SET deleted = true WHERE user_id = ?")
+@SQLDelete(sql = "UPDATE mst_user SET is_deleted = true WHERE user_id = ?")
 public class User {
 
   @Id

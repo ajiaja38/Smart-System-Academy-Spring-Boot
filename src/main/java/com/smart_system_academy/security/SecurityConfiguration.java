@@ -14,15 +14,14 @@ public class SecurityConfiguration {
 
   private static final String[] WHITE_LIST_URL = {
       "/",
-      "user/register",
-      "user/login",
-      "user/refresh-token",
+      "/user/register",
   };
 
   @Bean
   SecurityFilterChain configure(HttpSecurity http) throws Exception {
     http.httpBasic(AbstractHttpConfigurer::disable)
         .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+        .csrf(AbstractHttpConfigurer::disable)
         .authorizeHttpRequests(request -> request.requestMatchers(WHITE_LIST_URL)
             .permitAll()
             .anyRequest()

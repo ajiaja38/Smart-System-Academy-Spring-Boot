@@ -55,5 +55,4 @@ public class Role {
   public void onUpdate() {
     this.updatedAt = DateTimeUtil.getTimeZoneNow();
   }
-
 }

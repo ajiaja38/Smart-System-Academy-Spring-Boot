@@ -3,8 +3,8 @@ package com.smart_system_academy.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +13,6 @@ import com.smart_system_academy.model.dto.res.RegisterResponseDto;
 import com.smart_system_academy.model.entity.Role;
 import com.smart_system_academy.model.entity.User;
 import com.smart_system_academy.model.entity.UserProfile;
-import com.smart_system_academy.repository.UserProfileRespository;
 import com.smart_system_academy.repository.UserRepository;
 import com.smart_system_academy.service.RoleService;
 import com.smart_system_academy.service.UserService;
@@ -28,9 +27,6 @@ public class UserServiceImpl implements UserService {
   private UserRepository userRepository;
 
   @Autowired
-  private UserProfileRespository userProfileRespository;
-
-  @Autowired
   private RoleService roleService;
 
   @Autowired
@@ -38,13 +34,17 @@ public class UserServiceImpl implements UserService {
 
   @Override
   @Transactional
-  public RegisterResponseDto register(RegisterUserDto registerUserDto, ERole roleRegistered) {
+  public RegisterResponseDto register(RegisterUserDto registerUserDto, ERole roleRegistered) throws Exception {
     try {
       List<ERole> roles = new ArrayList<>();
 
       roles.add(roleRegistered);
 
       List<Role> userRoles = roles.stream().map(this.roleService::getOrSave).toList();
+
+      if (!registerUserDto.getPassword().equals(registerUserDto.getConfirmPassword())) {
+        throw new BadRequestException("Passwords do not match");
+      }
 
       User user = User.builder()
           .username(registerUserDto.getUsername())
@@ -61,7 +61,6 @@ public class UserServiceImpl implements UserService {
           .build();
 
       this.userRepository.save(user);
-      this.userProfileRespository.save(user.getUserProfile());
 
       return RegisterResponseDto.builder()
           .id(user.getId())
@@ -75,7 +74,7 @@ public class UserServiceImpl implements UserService {
           .roles(roles)
           .build();
 
-    } catch (DataIntegrityViolationException e) {
+    } catch (Exception e) {
       throw e;
     }
   }
