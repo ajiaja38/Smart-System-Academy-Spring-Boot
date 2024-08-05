@@ -13,6 +13,7 @@ import com.smart_system_academy.model.dto.res.RegisterResponseDto;
 import com.smart_system_academy.model.entity.Role;
 import com.smart_system_academy.model.entity.User;
 import com.smart_system_academy.model.entity.UserProfile;
+import com.smart_system_academy.repository.UserProfileRespository;
 import com.smart_system_academy.repository.UserRepository;
 import com.smart_system_academy.service.RoleService;
 import com.smart_system_academy.service.UserService;
@@ -27,6 +28,9 @@ public class UserServiceImpl implements UserService {
   private UserRepository userRepository;
 
   @Autowired
+  private UserProfileRespository userProfileRespository;
+
+  @Autowired
   private RoleService roleService;
 
   @Autowired
@@ -37,14 +41,25 @@ public class UserServiceImpl implements UserService {
   public RegisterResponseDto register(RegisterUserDto registerUserDto, ERole roleRegistered) throws Exception {
     List<ERole> roles = new ArrayList<>();
 
-    System.out.println(registerUserDto.getLastName());
-
     roles.add(roleRegistered);
 
     List<Role> userRoles = roles.stream().map(this.roleService::getOrSave).toList();
 
     if (!registerUserDto.getPassword().equals(registerUserDto.getConfirmPassword())) {
       throw new BadRequestException("Password and confirm password does not match");
+    }
+
+    boolean existingUser = this.userRepository.findByEmail(registerUserDto.getEmail()).isPresent();
+
+    if (existingUser) {
+      throw new BadRequestException("Email is already taken");
+    }
+
+    boolean existingUserPhoneNumber = this.userProfileRespository.findByPhoneNumber(registerUserDto.getPhoneNumber())
+        .isPresent();
+
+    if (existingUserPhoneNumber) {
+      throw new BadRequestException("Phone number is already taken");
     }
 
     User user = User.builder()

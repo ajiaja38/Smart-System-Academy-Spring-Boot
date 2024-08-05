@@ -1,7 +1,5 @@
 package com.smart_system_academy.controller;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +23,6 @@ public class AppController {
                 .code(HttpStatus.OK.value())
                 .status(true)
                 .message(appService.getHelloService())
-                .data(Optional.empty())
                 .build());
   }
 
