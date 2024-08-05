@@ -20,6 +20,10 @@ public class RegisterUserDto {
   @NotNull(message = "username cannot be null")
   private String username;
 
+  @NotNull(message = "email cannot be null")
+  @Pattern(regexp = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$", message = "email is not valid")
+  private String email;
+
   @NotNull(message = "password cannot be null")
   private String password;
 
