@@ -1,6 +1,5 @@
 package com.smart_system_academy.model.dto.res;
 
-import java.util.Date;
 import java.util.List;
 
 import com.smart_system_academy.utils.enumerate.ERole;
