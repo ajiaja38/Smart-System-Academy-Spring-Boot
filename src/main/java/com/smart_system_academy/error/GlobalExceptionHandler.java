@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -27,7 +28,6 @@ public class GlobalExceptionHandler {
             .code(HttpStatus.BAD_REQUEST.value())
             .status(Boolean.FALSE)
             .message(e.getMessage())
-            .data(Optional.empty())
             .path(Optional.ofNullable(request.getRequestURI()))
             .build());
   }
@@ -39,7 +39,6 @@ public class GlobalExceptionHandler {
             .code(HttpStatus.NOT_FOUND.value())
             .status(Boolean.FALSE)
             .message(e.getMessage())
-            .data(Optional.empty())
             .path(Optional.ofNullable(request.getRequestURI()))
             .build());
   }
@@ -51,7 +50,6 @@ public class GlobalExceptionHandler {
             .code(HttpStatus.UNAUTHORIZED.value())
             .status(Boolean.FALSE)
             .message(e.getMessage())
-            .data(Optional.empty())
             .path(Optional.ofNullable(request.getRequestURI()))
             .build());
   }
@@ -63,7 +61,6 @@ public class GlobalExceptionHandler {
             .code(HttpStatus.FORBIDDEN.value())
             .status(Boolean.FALSE)
             .message(e.getMessage())
-            .data(Optional.empty())
             .path(Optional.ofNullable(request.getRequestURI()))
             .build());
   }
@@ -80,7 +77,18 @@ public class GlobalExceptionHandler {
             .code(HttpStatus.BAD_REQUEST.value())
             .status(Boolean.FALSE)
             .message("Validation failed: " + errorMessage)
-            .data(Optional.empty())
+            .path(Optional.ofNullable(request.getRequestURI()))
+            .build());
+  }
+
+  @ExceptionHandler(UsernameNotFoundException.class)
+  public ResponseEntity<Object> handleUsernameNotFoundException(UsernameNotFoundException e,
+      HttpServletRequest request) {
+    return ResponseEntity.status(HttpStatus.NOT_FOUND)
+        .body(ResponseWrapper.builder()
+            .code(HttpStatus.NOT_FOUND.value())
+            .status(Boolean.FALSE)
+            .message(e.getMessage())
             .path(Optional.ofNullable(request.getRequestURI()))
             .build());
   }
@@ -92,7 +100,6 @@ public class GlobalExceptionHandler {
             .code(HttpStatus.INTERNAL_SERVER_ERROR.value())
             .status(Boolean.FALSE)
             .message(e.getMessage() != null ? e.getMessage() : "Terdapat kesalahan pada server")
-            .data(Optional.empty())
             .path(Optional.ofNullable(request.getRequestURI()))
             .build());
   }
