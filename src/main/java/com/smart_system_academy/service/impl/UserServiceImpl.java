@@ -127,23 +127,26 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public List<GetAllUserResponseDto> getAllUser() throws Exception {
+  public List<GetAllUserResponseDto> getAllUser(String firstName) throws Exception {
     List<GetAllUserResponseDto> result = new ArrayList<>();
 
-    this.userRepository.findByUserProfileRolesRole(ERole.ROLE_USER).forEach(user -> {
-      result.add(GetAllUserResponseDto.builder()
-          .id(user.getId())
-          .username(user.getUsername())
-          .email(user.getEmail())
-          .firstName(user.getUserProfile().getFirstName())
-          .lastName(user.getUserProfile().getLastName())
-          .phoneNumber(user.getUserProfile().getPhoneNumber())
-          .address(user.getUserProfile().getAddress())
-          .birthDate(user.getUserProfile().getBirthDate().toString().split(" ")[0])
-          .avatar(user.getUserProfile().getAvatar())
-          .roles(user.getUserProfile().getRoles().stream().map(Role::getRole).toList())
-          .build());
-    });
+    this.userRepository
+        .findByUserProfileRolesRoleAndUserProfileFirstNameIgnoreCaseContainingOrderByCreatedAtDesc(
+            ERole.ROLE_USER, firstName)
+        .forEach(user -> {
+          result.add(GetAllUserResponseDto.builder()
+              .id(user.getId())
+              .username(user.getUsername())
+              .email(user.getEmail())
+              .firstName(user.getUserProfile().getFirstName())
+              .lastName(user.getUserProfile().getLastName())
+              .phoneNumber(user.getUserProfile().getPhoneNumber())
+              .address(user.getUserProfile().getAddress())
+              .birthDate(user.getUserProfile().getBirthDate().toString().split(" ")[0])
+              .avatar(user.getUserProfile().getAvatar())
+              .roles(user.getUserProfile().getRoles().stream().map(Role::getRole).toList())
+              .build());
+        });
 
     return result;
   }

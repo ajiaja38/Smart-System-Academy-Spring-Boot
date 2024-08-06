@@ -13,5 +13,7 @@ import com.smart_system_academy.utils.enumerate.ERole;
 public interface UserRepository extends JpaRepository<User, String> {
   Optional<User> findByEmail(String email);
 
-  List<User> findByUserProfileRolesRole(ERole role);
+  List<User> findByUserProfileRolesRoleAndUserProfileFirstNameIgnoreCaseContainingOrderByCreatedAtDesc(
+      ERole role,
+      String firstName);
 }

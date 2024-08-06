@@ -62,7 +62,7 @@ public class GlobalExceptionHandler {
         .body(ResponseWrapper.builder()
             .code(HttpStatus.FORBIDDEN.value())
             .status(Boolean.FALSE)
-            .message(e.getMessage())
+            .message("You don't have permission to access this resource")
             .path(Optional.ofNullable(request.getRequestURI()))
             .build());
   }

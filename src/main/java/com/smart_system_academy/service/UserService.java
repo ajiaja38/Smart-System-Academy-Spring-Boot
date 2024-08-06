@@ -15,5 +15,5 @@ public interface UserService extends UserDetailsService {
 
   AppUser loadUserByUserId(String id) throws Exception;
 
-  List<GetAllUserResponseDto> getAllUser() throws Exception;
+  List<GetAllUserResponseDto> getAllUser(String firstName) throws Exception;
 }
