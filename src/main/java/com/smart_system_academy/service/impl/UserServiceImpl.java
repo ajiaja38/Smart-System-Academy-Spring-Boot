@@ -13,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.smart_system_academy.model.dto.req.RegisterUserDto;
+import com.smart_system_academy.model.dto.res.GetAllUserResponseDto;
 import com.smart_system_academy.model.dto.res.RegisterResponseDto;
 import com.smart_system_academy.model.entity.AppUser;
 import com.smart_system_academy.model.entity.Role;
@@ -123,6 +124,28 @@ public class UserServiceImpl implements UserService {
         .password(user.getPassword())
         .roles(user.getUserProfile().getRoles())
         .build();
+  }
+
+  @Override
+  public List<GetAllUserResponseDto> getAllUser() throws Exception {
+    List<GetAllUserResponseDto> result = new ArrayList<>();
+
+    this.userRepository.findByUserProfileRolesRole(ERole.ROLE_USER).forEach(user -> {
+      result.add(GetAllUserResponseDto.builder()
+          .id(user.getId())
+          .username(user.getUsername())
+          .email(user.getEmail())
+          .firstName(user.getUserProfile().getFirstName())
+          .lastName(user.getUserProfile().getLastName())
+          .phoneNumber(user.getUserProfile().getPhoneNumber())
+          .address(user.getUserProfile().getAddress())
+          .birthDate(user.getUserProfile().getBirthDate().toString().split(" ")[0])
+          .avatar(user.getUserProfile().getAvatar())
+          .roles(user.getUserProfile().getRoles().stream().map(Role::getRole).toList())
+          .build());
+    });
+
+    return result;
   }
 
 }
