@@ -1,5 +1,6 @@
 package com.smart_system_academy.error;
 
+import java.io.IOException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.smart_system_academy.model.dto.res.ResponseWrapper;
 
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 
 @RestControllerAdvice
@@ -89,6 +91,28 @@ public class GlobalExceptionHandler {
             .code(HttpStatus.NOT_FOUND.value())
             .status(Boolean.FALSE)
             .message(e.getMessage())
+            .path(Optional.ofNullable(request.getRequestURI()))
+            .build());
+  }
+
+  @ExceptionHandler(ServletException.class)
+  public ResponseEntity<Object> handleServletException(ServletException e, HttpServletRequest request) {
+    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .body(ResponseWrapper.builder()
+            .code(HttpStatus.INTERNAL_SERVER_ERROR.value())
+            .status(Boolean.FALSE)
+            .message(e.getMessage() != null ? e.getMessage() : "Terdapat kesalahan pada server")
+            .path(Optional.ofNullable(request.getRequestURI()))
+            .build());
+  }
+
+  @ExceptionHandler(IOException.class)
+  public ResponseEntity<Object> handleIOException(IOException e, HttpServletRequest request) {
+    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .body(ResponseWrapper.builder()
+            .code(HttpStatus.INTERNAL_SERVER_ERROR.value())
+            .status(Boolean.FALSE)
+            .message(e.getMessage() != null ? e.getMessage() : "Terdapat kesalahan pada server")
             .path(Optional.ofNullable(request.getRequestURI()))
             .build());
   }
