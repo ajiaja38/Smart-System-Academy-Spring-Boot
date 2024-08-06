@@ -31,7 +31,7 @@ public class SecurityConfiguration {
       "/",
       "/user/register",
       "/auth/login",
-      "/auth/refresh-token",
+      "/auth/refreshToken",
   };
 
   @Bean
