@@ -3,13 +3,18 @@ package com.smart_system_academy.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.naming.NameNotFoundException;
+
 import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.smart_system_academy.model.dto.req.RegisterUserDto;
 import com.smart_system_academy.model.dto.res.RegisterResponseDto;
+import com.smart_system_academy.model.entity.AppUser;
 import com.smart_system_academy.model.entity.Role;
 import com.smart_system_academy.model.entity.User;
 import com.smart_system_academy.model.entity.UserProfile;
@@ -91,6 +96,32 @@ public class UserServiceImpl implements UserService {
         .birthDate(user.getUserProfile().getBirthDate())
         .createdAt(user.getCreatedAt())
         .updatedAt(user.getUpdatedAt())
+        .build();
+  }
+
+  @Override
+  public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    User user = this.userRepository.findByEmail(username).orElseThrow(
+        () -> new UsernameNotFoundException("User not found with email: " + username));
+
+    return AppUser.builder()
+        .id(user.getId())
+        .email(user.getEmail())
+        .password(user.getPassword())
+        .roles(user.getUserProfile().getRoles())
+        .build();
+  }
+
+  @Override
+  public AppUser loadUserByUserId(String id) throws Exception {
+    User user = this.userRepository.findById(id).orElseThrow(
+        () -> new NameNotFoundException("User not found with id: " + id));
+
+    return AppUser.builder()
+        .id(user.getId())
+        .email(user.getEmail())
+        .password(user.getPassword())
+        .roles(user.getUserProfile().getRoles())
         .build();
   }
 
