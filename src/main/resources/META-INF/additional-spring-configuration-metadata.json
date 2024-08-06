@@ -6,29 +6,24 @@
       "description": "A description for 'jwt.secret'"
     },
     {
-      "name": "jwt.secretRefresh",
+      "name": "jwt.secretrefresh",
       "type": "java.lang.String",
-      "description": "A description for 'jwt.secretRefresh'"
+      "description": "A description for 'jwt.secretrefresh'"
     },
     {
-      "name": "jwt.appName",
+      "name": "jwt.appname",
       "type": "java.lang.String",
-      "description": "A description for 'jwt.appName'"
+      "description": "A description for 'jwt.appname'"
     },
     {
-      "name": "jwt.jwtExpiration",
+      "name": "jwt.jwtexpiration",
       "type": "java.lang.String",
-      "description": "A description for 'jwt.jwtExpiration'"
+      "description": "A description for 'jwt.jwtexpiration'"
     },
     {
-      "name": "jwt.jwtExpirationRefresh",
+      "name": "jwt.jwtexpirationrefresh",
       "type": "java.lang.String",
-      "description": "A description for 'jwt.jwtExpirationRefresh'"
-    },
-    {
-      "name": "jwt.secretRefresh",
-      "type": "java.lang.String",
-      "description": "A description for 'jwt.secretRefresh'"
+      "description": "A description for 'jwt.jwtexpirationrefresh'"
     }
   ]
 }
