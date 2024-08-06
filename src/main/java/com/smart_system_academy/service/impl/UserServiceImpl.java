@@ -6,6 +6,8 @@ import java.util.List;
 import javax.naming.NameNotFoundException;
 
 import org.apache.coyote.BadRequestException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -41,6 +43,8 @@ public class UserServiceImpl implements UserService {
 
   @Autowired
   private PasswordEncoder passwordEncoder;
+
+  private final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
   @Override
   @Transactional
@@ -148,6 +152,7 @@ public class UserServiceImpl implements UserService {
               .build());
         });
 
+    this.logger.info("Get all user successfully");
     return result;
   }
 
