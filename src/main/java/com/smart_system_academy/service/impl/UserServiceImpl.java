@@ -88,20 +88,7 @@ public class UserServiceImpl implements UserService {
 
     this.userRepository.save(user);
 
-    return RegisterResponseDto.builder()
-        .id(user.getId())
-        .username(user.getUsername())
-        .email(user.getEmail())
-        .avatar(user.getUserProfile().getAvatar())
-        .firstName(user.getUserProfile().getFirstName())
-        .lastName(user.getUserProfile().getLastName())
-        .phoneNumber(user.getUserProfile().getPhoneNumber())
-        .address(user.getUserProfile().getAddress())
-        .roles(roles)
-        .birthDate(user.getUserProfile().getBirthDate())
-        .createdAt(user.getCreatedAt())
-        .updatedAt(user.getUpdatedAt())
-        .build();
+    return this.mapUserToRegisterResponseDto(user);
   }
 
   @Override
@@ -138,6 +125,7 @@ public class UserServiceImpl implements UserService {
         .findByUserProfileRolesRoleAndUserProfileFirstNameIgnoreCaseContainingOrderByCreatedAtDesc(
             ERole.ROLE_USER, firstName)
         .forEach(user -> {
+
           result.add(GetAllUserResponseDto.builder()
               .id(user.getId())
               .username(user.getUsername())
@@ -154,6 +142,23 @@ public class UserServiceImpl implements UserService {
 
     this.logger.info("Get all user successfully");
     return result;
+  }
+
+  private RegisterResponseDto mapUserToRegisterResponseDto(User user) {
+    return RegisterResponseDto.builder()
+        .id(user.getId())
+        .username(user.getUsername())
+        .email(user.getEmail())
+        .avatar(user.getUserProfile().getAvatar())
+        .firstName(user.getUserProfile().getFirstName())
+        .lastName(user.getUserProfile().getLastName())
+        .phoneNumber(user.getUserProfile().getPhoneNumber())
+        .address(user.getUserProfile().getAddress())
+        .roles(user.getUserProfile().getRoles().stream().map(Role::getRole).toList())
+        .birthDate(user.getUserProfile().getBirthDate())
+        .createdAt(user.getCreatedAt())
+        .updatedAt(user.getUpdatedAt())
+        .build();
   }
 
 }
