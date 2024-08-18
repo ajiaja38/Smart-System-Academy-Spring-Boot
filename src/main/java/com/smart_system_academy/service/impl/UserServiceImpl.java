@@ -15,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.smart_system_academy.model.dto.req.RegisterUserDto;
+import com.smart_system_academy.model.dto.req.UpdateUserDto;
 import com.smart_system_academy.model.dto.res.GetAllUserResponseDto;
 import com.smart_system_academy.model.dto.res.RegisterResponseDto;
 import com.smart_system_academy.model.entity.AppUser;
@@ -142,6 +143,24 @@ public class UserServiceImpl implements UserService {
 
     this.logger.info("Get all user successfully");
     return result;
+  }
+
+  @Override
+  public RegisterResponseDto updateUser(String id, UpdateUserDto updateUserDto) throws Exception {
+    User user = this.userRepository.findById(id).orElseThrow(
+        () -> new UsernameNotFoundException("User not found with id: " + id));
+
+    user.setUsername(updateUserDto.getUsername());
+    user.setEmail(updateUserDto.getEmail());
+    user.getUserProfile().setFirstName(updateUserDto.getFirstName());
+    user.getUserProfile().setLastName(updateUserDto.getLastName());
+    user.getUserProfile().setPhoneNumber(updateUserDto.getPhoneNumber());
+    user.getUserProfile().setAddress(updateUserDto.getAddress());
+    user.getUserProfile().setBirthDate(updateUserDto.getBirthDate());
+
+    this.userRepository.save(user);
+
+    return this.mapUserToRegisterResponseDto(user);
   }
 
   private RegisterResponseDto mapUserToRegisterResponseDto(User user) {
