@@ -8,13 +8,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.smart_system_academy.model.dto.req.RegisterUserDto;
+import com.smart_system_academy.model.dto.req.UpdateUserDto;
 import com.smart_system_academy.model.dto.res.GetAllUserResponseDto;
 import com.smart_system_academy.model.dto.res.RegisterResponseDto;
 import com.smart_system_academy.model.dto.res.ResponseWrapper;
@@ -55,6 +58,19 @@ public class UserController {
             .status(Boolean.TRUE)
             .message("Successfully retrieved all users")
             .data(Optional.of(this.userService.getAllUser(firstname)))
+            .build());
+  }
+
+  @PreAuthorize("hasAuthority('ROLE_USER') or hasAuthority('ROLE_ADMIN')")
+  @PutMapping("update/{id}")
+  public ResponseEntity<ResponseWrapper<RegisterResponseDto>> updateUserHandler(@PathVariable String id,
+      @RequestBody UpdateUserDto updateUserDto) throws Exception {
+    return ResponseEntity.status(HttpStatus.OK).body(
+        ResponseWrapper.<RegisterResponseDto>builder()
+            .code(HttpStatus.OK.value())
+            .status(Boolean.TRUE)
+            .message("Successfully updated user")
+            .data(Optional.of(this.userService.updateUser(id, updateUserDto)))
             .build());
   }
 
