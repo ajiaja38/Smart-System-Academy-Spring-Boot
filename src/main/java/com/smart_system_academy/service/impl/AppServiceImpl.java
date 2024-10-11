@@ -9,7 +9,7 @@ public class AppServiceImpl implements AppService {
 
   @Override
   public String getHelloService() {
-    return "Hello Welcome To Smart System Academy APIs!";
+    return "Hello Welcome To Smart System Academy API!";
   }
 
 }
